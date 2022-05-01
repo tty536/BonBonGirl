@@ -1,0 +1,21 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <!--  Font_Size    -->
+    <dimen name="font_small">10sp</dimen>
+    <dimen name="font_normal">15sp</dimen>
+    <dimen name="font_larger">20sp</dimen>
+    <dimen name="font_xLarger">25sp</dimen>
+
+    <!--  margin  -->
+    <dimen name="small">10dp</dimen>
+    <dimen name="normal">20dp</dimen>
+    <dimen name="large">30dp</dimen>
+    <dimen name="xLarge">40dp</dimen>
+
+</resources>

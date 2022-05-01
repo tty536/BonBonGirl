@@ -1,0 +1,112 @@
+package com.qiufang.bonbon.ui.music
+
+import android.annotation.SuppressLint
+import android.app.Service
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.IBinder
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.qiufang.bonbon.R
+import com.qiufang.bonbon.databinding.ActivityMusicBinding
+import com.qiufang.bonbon.utils.Constants
+import com.qiufang.bonbon.utils.LogUtil
+
+class MusicActivity : AppCompatActivity() {
+
+    private lateinit var musicViewModel: MusicViewModel
+    private lateinit var binding: ActivityMusicBinding
+    private lateinit var albumId : String
+    private lateinit var albumGroup : String
+    lateinit var adapter : MusicAdapter
+    private val TAG : String = "MusicActivity"
+
+//    private val musicList :List<Music> = musicViewModel.initMusics()
+    private lateinit var mBinder : MusicPlayService.PlayerServiceBinder
+    private lateinit var mService: MusicPlayService
+
+
+    private val serviceConnection  =object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+            mBinder = p1 as MusicPlayService.PlayerServiceBinder
+            mService = mBinder.getService()
+            mService.setOnMusicStateChangeListener(object :MusicPlayService.OnMusicStateChangeListener{
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onStateChange(position: Int) {
+                    super.onStateChange(position)
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMusicBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        albumId = intent.getStringExtra("album_id").toString()
+        albumGroup = intent.getStringExtra("album_groupName").toString()
+
+        musicViewModel = ViewModelProvider(this).get(MusicViewModel::class.java)
+        val musicList = binding.albumMusic
+
+        val layoutManager = LinearLayoutManager(this)
+        musicList.layoutManager = layoutManager
+
+        val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE)
+
+        musicViewModel.getMusics(albumId,albumGroup)
+        musicViewModel.musicList.observe(this, Observer {
+            if (it.isNotEmpty()){
+//                Constants.MusicList().setMusics(it)
+//                musicListData = it
+
+                MusicManager.Musics.setMusicData(it)
+
+                val adapter = MusicAdapter(it)
+                adapter.setListener(object :MusicAdapter.OnItemClickListener{
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onItemClick(list: List<Music>,position: Int) {
+                        super.onItemClick(list,position)
+                        mService.startPlay(list,position)
+//                        MusicManager.Musics.musics[position].state  = !MusicManager.Musics.musics[position].state
+//                        adapter.notifyDataSetChanged()
+                    }
+                })
+                this.adapter = adapter
+                MusicManager().setMusicAdapter(adapter)
+
+                musicList.adapter = adapter
+                LogUtil.d("MusicPlayer_Wrong","MusicActivity set Adapter")
+
+            }
+        })
+
+    }
+
+    override fun onStop() {
+        LogUtil.d(TAG,"stop Activity")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtil.d(TAG,"onDestroy Activity")
+        unbindService(serviceConnection)
+        val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
+        stopService(intent)
+    }
+
+}
