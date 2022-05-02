@@ -41,9 +41,9 @@ class MusicAdapter(private val musicList :List<Music>) : RecyclerView.Adapter<Mu
 //        holder.albumImage.setOnClickListener { mItemClickListener?.onItemClick(music) }
 
         if (music.state) {
-            holder.musicState.setBackgroundResource(R.drawable.icon_pause)
+            holder.musicState.setBackgroundResource(R.mipmap.red_pause)
         }else{
-            holder.musicState.setBackgroundResource(R.drawable.icon_playbutton)
+            holder.musicState.setBackgroundResource(R.mipmap.red_play)
         }
         holder.albumName.text = music.name
         holder.musicNumber.text = (position+1).toString()

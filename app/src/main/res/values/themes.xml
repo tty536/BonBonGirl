@@ -24,6 +24,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="text_music_number">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="text_music_author">
         <item name="android:textSize">10sp</item>
        <!-- <item name="android:textStyle">bold</item>-->

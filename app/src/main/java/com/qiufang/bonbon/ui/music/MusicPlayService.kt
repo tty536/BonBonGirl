@@ -1,11 +1,20 @@
 package com.qiufang.bonbon.ui.music
 
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import com.qiufang.bonbon.utils.Constants
+import android.view.View
+import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
+import com.qiufang.bonbon.R
 import com.qiufang.bonbon.utils.LogUtil
 import java.lang.Exception
 
@@ -17,20 +26,19 @@ class MusicPlayService : Service() {
     private val mBinder = PlayerServiceBinder()
     private var onStateChangeListener : OnMusicStateChangeListener? = null
 
-    interface OnMusicStateChangeListener{
-        fun onStateChange(position: Int){
-        }
-    }
 
-    fun setOnMusicStateChangeListener(listener : OnMusicStateChangeListener){
-        this.onStateChangeListener = listener
-    }
+    private lateinit var mRemoteView : RemoteViews
+    private lateinit var receiver: MusicReceive
+    private lateinit var notification: Notification
+    private lateinit var manager: NotificationManager
 
-    fun notifyActivityUIChange(){
-        if (this.onStateChangeListener != null){
-            this.onStateChangeListener!!.onStateChange(this.position)
-        }
-    }
+    private val NOTIFY_CHANEL_ID = "001"
+    private val MANAGE_ID = 100
+    private  val BRE_ACTION_PLAY = "com.bonbon.play"
+    private  val BRE_ACTION_PAUSE = "com.bonbon.pause"
+    private  val BRE_ACTION_NEST = "com.bonbon.nest"
+    private  val BRE_ACTION_AHEAD = "com.bonbon.ahead"
+
     companion object{
         private val mService = MusicPlayService()
     }
@@ -43,6 +51,12 @@ class MusicPlayService : Service() {
         }
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        initMusicReceiver()
+        createRemoteView()
+        initNotification()
+    }
 
     override fun onBind(intent: Intent): IBinder {
        return mBinder
@@ -53,6 +67,89 @@ class MusicPlayService : Service() {
 //            player.reset()
 //        }
         return super.onUnbind(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+    class MusicReceive : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action = p1?.action
+            if (action != null) {
+                MusicPlayService().notifyControlUI(action)
+            }
+
+        }
+    }
+
+    private fun initMusicReceiver(){
+        receiver = MusicReceive()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(BRE_ACTION_AHEAD)
+        intentFilter.addAction(BRE_ACTION_NEST)
+        intentFilter.addAction(BRE_ACTION_PAUSE)
+        intentFilter.addAction(BRE_ACTION_PLAY)
+        registerReceiver(receiver,intentFilter)
+    }
+
+    private fun createRemoteView(){
+        mRemoteView = RemoteViews(packageName,R.layout.notify_music)
+
+        val intentAhead :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_AHEAD),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_ahead,intentAhead)
+
+        val intentPlay :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_PLAY),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_play,intentAhead)
+
+        val intentNext :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_NEST),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_next,intentAhead)
+
+        val intentPause :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_PAUSE),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_pause,intentAhead)
+
+    }
+
+    private fun initNotification(){
+        manager = getSystemService(Context.NOTIFICATION_SERVICE)
+                as NotificationManager
+        val  builder : NotificationCompat.Builder = NotificationCompat.Builder(
+                                    this,NOTIFY_CHANEL_ID)
+
+        builder.setSmallIcon(R.drawable.icon_logo)
+            .setContent(mRemoteView)
+            .setAutoCancel(false)
+//            .setOngoing(true)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+        notification = builder.build()
+        manager.notify(MANAGE_ID,notification)
+    }
+
+    private fun updateNotification(position: Int){
+
+        if (player.isPlaying){
+            mRemoteView.setViewVisibility(R.id.img_play,View.GONE)
+            mRemoteView.setViewVisibility(R.id.img_pause,View.VISIBLE)
+        }else{
+            mRemoteView.setViewVisibility(R.id.img_play,View.GONE)
+            mRemoteView.setViewVisibility(R.id.img_pause,View.VISIBLE)
+        }
+
+        mRemoteView.setTextViewText(R.id.music_title,musicList[position].name)
+        mRemoteView.setTextViewText(R.id.group_name,musicList[position].group)
+
+        manager.notify(MANAGE_ID,notification)
+    }
+
+    private fun notifyControlUI(action: String){
+//        when (action){
+//            BRE_ACTION_PLAY ->
+//        }
     }
 
     fun startPlay(list : List<Music>, position : Int){
@@ -84,7 +181,7 @@ class MusicPlayService : Service() {
                     player.start()
                     list[this.position].state = true
                     notifyActivityUIChange()
-
+                    updateNotification(position)
 
                 }
             }else{
@@ -97,6 +194,7 @@ class MusicPlayService : Service() {
                 player.start()
                 list[this.position].state = true
                 notifyActivityUIChange()
+                updateNotification(position)
             }
         }catch (e:Exception){
             e.printStackTrace()
@@ -112,6 +210,22 @@ class MusicPlayService : Service() {
         player.start()
         music.state = true
         notifyActivityUIChange()
+    }
+
+
+    interface OnMusicStateChangeListener{
+        fun onStateChange(position: Int){
+        }
+    }
+
+    fun setOnMusicStateChangeListener(listener : OnMusicStateChangeListener){
+        this.onStateChangeListener = listener
+    }
+
+    private fun notifyActivityUIChange(){
+        if (this.onStateChangeListener != null){
+            this.onStateChangeListener!!.onStateChange(this.position)
+        }
     }
 
 

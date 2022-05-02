@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qiufang.bonbon.R
 import com.qiufang.bonbon.databinding.ActivityMusicBinding
@@ -63,6 +64,7 @@ class MusicActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         musicList.layoutManager = layoutManager
+        musicList.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
         val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
         bindService(intent, serviceConnection, BIND_AUTO_CREATE)

@@ -9,7 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -28,7 +28,7 @@
             android:exported="false"
             android:label="@string/albumList" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".activity.BaseActivity"
@@ -36,7 +36,7 @@
             android:label="@string/title_activity_base"
             android:theme="@style/Theme.Bonbon.NoActionBar" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:launchMode="singleTask" />
