@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.qiufang.bonbon.ui.album.AlbumFragment"
-        android:label="@string/menu_home"
+        android:label="@string/Albums"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -20,6 +20,6 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.qiufang.bonbon.ui.video.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_video"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

@@ -29,6 +29,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="notfy_music_title">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="color">@color/black</item>
+    </style>
+
     <style name="text_music_author">
         <item name="android:textSize">10sp</item>
        <!-- <item name="android:textStyle">bold</item>-->

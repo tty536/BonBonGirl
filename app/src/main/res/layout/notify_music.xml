@@ -1,49 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notify_music">
+
     <ImageView
         android:id="@+id/musicCover"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/music_title"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
-    <TextView
-        android:id="@+id/group_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/music_title"/>
-    <ImageView
-        android:id="@+id/img_ahead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:src="@mipmap/icon_last"/>
-    <ImageView
-        android:id="@+id/img_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/red_play"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@id/img_ahead"/>
+        android:src="@drawable/icon_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:visibility="gone"
-        android:id="@+id/img_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/red_pause"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@id/img_ahead"/>
+        android:id="@+id/img_close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@mipmap/ic_error"
+        android:layout_alignParentEnd="true"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/img_next"
+    <LinearLayout
+        android:id="@+id/layout_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/icon_next"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@id/img_play"/>
+        android:layout_above="@id/layout_btn"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/musicCover"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/music_title"
+            style="@style/text_music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/musicCover">
+
+        <ImageView
+            android:id="@+id/img_ahead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/icon_last" />
+
+        <ImageView
+            android:id="@+id/img_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/red_play" />
+
+        <ImageView
+            android:id="@+id/img_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/red_pause"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/icon_next" />
+    </LinearLayout>
 </RelativeLayout>

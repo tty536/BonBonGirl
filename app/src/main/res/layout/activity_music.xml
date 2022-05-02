@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.music.MusicActivity"
     >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <LinearLayout
         android:id="@+id/album_banner"
         android:layout_width="wrap_content"

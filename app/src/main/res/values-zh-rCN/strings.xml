@@ -29,4 +29,8 @@
     <string name="account_warning">账号密码不匹配！</string>
     <string name="NotAccount">账号不存在！</string>
     <string name="Unknown">未知错误！</string>
+    <string name="menu_music">音乐</string>
+    <string name="menu_video">视频</string>
+    <string name="Albums">专辑列表</string>
+    <string name="musics">音乐列表</string>
 </resources>

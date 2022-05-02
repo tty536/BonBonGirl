@@ -40,4 +40,6 @@
     <string name="albumList">Albums</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="author">硬糖少女303</string>
+    <string name="Albums">Albums</string>
+    <string name="musics">Musics</string>
 </resources>
