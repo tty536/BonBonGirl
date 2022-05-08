@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.qiufang.bonbon.R
 import com.qiufang.bonbon.databinding.ActivityMusicBinding
 import com.qiufang.bonbon.utils.Constants
@@ -22,8 +23,12 @@ class MusicActivity : AppCompatActivity() {
 
     private lateinit var musicViewModel: MusicViewModel
     private lateinit var binding: ActivityMusicBinding
+
     private lateinit var albumId : String
     private lateinit var albumGroup : String
+    private lateinit var albumName : String
+    private lateinit var albumCover : String
+    private lateinit var albumDate : String
     lateinit var adapter : MusicAdapter
     private val TAG : String = "MusicActivity"
 
@@ -62,17 +67,27 @@ class MusicActivity : AppCompatActivity() {
 
         albumId = intent.getStringExtra("album_id").toString()
         albumGroup = intent.getStringExtra("album_groupName").toString()
+        albumName = intent.getStringExtra("album_name").toString()
+        albumCover = intent.getStringExtra("album_cover").toString()
+        albumDate = intent.getStringExtra("album_date").toString()
 
         musicViewModel = ViewModelProvider(this).get(MusicViewModel::class.java)
         val musicList = binding.albumMusic
+        val imgCover = binding.albumCover
+        val txtAlbumName = binding.albumName
+        val txtGroupName = binding.albumGroup
+        val txtDate = binding.txtDate
 
+        imgCover.load(albumCover)
+        txtAlbumName.text = albumName
+        txtGroupName.text = albumGroup
+        txtDate.text  = albumDate
         val layoutManager = LinearLayoutManager(this)
         musicList.layoutManager = layoutManager
         musicList.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
         val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
         bindService(intent, serviceConnection, BIND_AUTO_CREATE)
-
         musicViewModel.getMusics(albumId,albumGroup)
         musicViewModel.musicList.observe(this, Observer {
             if (it.isNotEmpty()){
@@ -111,9 +126,9 @@ class MusicActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         LogUtil.d(TAG,"onDestroy Activity")
-        unbindService(serviceConnection)
-        val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
-        stopService(intent)
+//        unbindService(serviceConnection)
+//        val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
+//        stopService(intent)
     }
 
 }

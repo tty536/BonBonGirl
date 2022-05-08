@@ -8,16 +8,18 @@
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_launch.xml" value="0.9413489736070382" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_music.xml" value="0.3523550724637681" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_music.xml" value="0.25" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_player.xml" value="0.22916666666666666" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/activity_register.xml" value="0.36614583333333334" />
-        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/app_bar_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/app_bar_main.xml" value="0.2" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/content_main.xml" value="0.176" />
-        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/fragment_gallery.xml" value="0.2140625" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/fragment_gallery.xml" value="0.17" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/fragment_home.xml" value="0.22291666666666668" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/item_album.xml" value="0.30052083333333335" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/item_gallery.xml" value="0.21875" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/item_music.xml" value="0.9" />
-        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/nav_header_main.xml" value="0.22291666666666668" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/item_photo_album.xml" value="0.25" />
+        <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/layout/notify_music.xml" value="0.25" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
         <entry key="..\:/AndroidStudio/Project/BonBon/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1435" />

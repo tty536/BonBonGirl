@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.qiufang.bonbon.databinding.FragmentGalleryBinding
+import com.qiufang.bonbon.ui.album.Album
+import com.qiufang.bonbon.ui.album.AlbumListAdapter
+import com.qiufang.bonbon.utils.Constants
 
 class GalleryFragment : Fragment() {
 
@@ -27,11 +32,30 @@ class GalleryFragment : Fragment() {
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val galleryList = binding.gallery
 
-        val textView: TextView = binding.textGallery
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        galleryViewModel.getGallery()
+        galleryViewModel.galleryList.observe(viewLifecycleOwner, Observer {
+            val albumListData = it  ?: return@Observer
+
+            val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            galleryList.layoutManager  = layoutManager
+
+            val adapter = GalleryAdapter()
+            if (albumListData.isNotEmpty()){
+                adapter.galleryList = albumListData
+            }else{
+                adapter.galleryList = Constants.getEmptyGalleryList()
+            }
+
+            adapter.setListener(object : GalleryAdapter.OnItemClickListener{
+                override fun onItemClick(gallery: Gallery) {
+                    super.onItemClick(gallery)
+//                    gotoMusicActivity(album)
+                }
+            })
+            galleryList.adapter = adapter
+        })
         return root
     }
 

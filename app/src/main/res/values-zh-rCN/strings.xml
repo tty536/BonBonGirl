@@ -3,7 +3,7 @@
     <string name="app_name">硬糖少女</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">导航栏</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -33,4 +33,8 @@
     <string name="menu_video">视频</string>
     <string name="Albums">专辑列表</string>
     <string name="musics">音乐列表</string>
+    <string name="album_name">专辑名</string>
+    <string name="album_group">女团名</string>
+    <string name="album_data">发行时间</string>
+    <string name="Introduce">简介</string>
 </resources>

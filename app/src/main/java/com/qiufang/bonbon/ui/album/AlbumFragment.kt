@@ -76,6 +76,9 @@ class AlbumFragment : Fragment() {
         val intent = Intent(context, MusicActivity::class.java)
         intent.putExtra("album_id",album.id)
         intent.putExtra("album_groupName",album.group)
+        intent.putExtra("album_cover",album.imageUrl)
+        intent.putExtra("album_name",album.name)
+        intent.putExtra("album_date",album.date)
         context?.startActivity(intent)
     }
     override fun onDestroyView() {

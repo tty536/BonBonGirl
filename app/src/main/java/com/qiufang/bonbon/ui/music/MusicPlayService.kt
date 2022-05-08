@@ -23,21 +23,17 @@ import com.qiufang.bonbon.utils.LogUtil
 import java.lang.Exception
 
 class MusicPlayService : Service() {
-
-    private var position : Int = 0
-    private lateinit var  musicList : List<Music>
-    private var player : MediaPlayer = MediaPlayer()
     private val mBinder = PlayerServiceBinder()
-    private var onStateChangeListener : OnMusicStateChangeListener? = null
-
-
-
     companion object{
         private val mService = MusicPlayService()
         private lateinit var mRemoteView : RemoteViews
         private lateinit var receiver: MusicReceive
         private lateinit var notification: Notification
         private lateinit var manager: NotificationManager
+        private lateinit var  musicList : List<Music>
+        private var position : Int = 0
+        private var player : MediaPlayer = MediaPlayer()
+        private var onStateChangeListener : OnMusicStateChangeListener? = null
     }
     /*
     * 创建通知必须要创建Channel管道，其中的出传入的ID必须是项目的包名，否则会报错
@@ -49,7 +45,7 @@ class MusicPlayService : Service() {
     private  val BRE_ACTION_PAUSE = "com.bonbon.pause"
     private  val BRE_ACTION_NEST = "com.bonbon.nest"
     private  val BRE_ACTION_AHEAD = "com.bonbon.ahead"
-
+    private val BRE_ACTION_CLOSE = "com.bonbon.close"
 
 
 
@@ -59,6 +55,7 @@ class MusicPlayService : Service() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate() {
         super.onCreate()
         initMusicReceiver()
@@ -122,6 +119,9 @@ class MusicPlayService : Service() {
             this,1,Intent(BRE_ACTION_PAUSE),PendingIntent.FLAG_UPDATE_CURRENT)
         mRemoteView.setOnClickPendingIntent(R.id.img_pause,intentPause)
 
+        val intentClose :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_CLOSE),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_close,intentClose)
     }
 
     private fun initNotification(){
@@ -160,14 +160,59 @@ class MusicPlayService : Service() {
     }
 
     private fun notifyControlUI(action: String){
-//        when (action){
-//            BRE_ACTION_PLAY ->
-//        }
+        when (action){
+            BRE_ACTION_PLAY -> playMusic()
+            BRE_ACTION_PAUSE -> pauseMusic()
+            BRE_ACTION_AHEAD -> previousMusic()
+            BRE_ACTION_NEST -> nextMusic()
+            BRE_ACTION_CLOSE -> closeMusic()
+        }
+    }
+    private fun closeMusic(){
+        if (player.isPlaying){
+            player.pause()
+            musicList[position].state =false
+        }
+        notifyActivityUIChange()
+        manager.cancelAll()
     }
 
+    private fun nextMusic(){
+        player.stop()
+        musicList[position].state = false
+        if (position ==  musicList.size-1 ){
+            position = 0
+        }else{
+            position++
+        }
+        play(position)
+    }
+    private fun previousMusic(){
+        player.stop()
+        musicList[position].state = false
+        if (position ==  0 ){
+            position = musicList.size-1
+        }else{
+            position--
+        }
 
+        play(position)
+    }
+    private fun pauseMusic(){
+        if (player.isPlaying){
+            player.stop()
+            musicList[position].state = false
+            notifyActivityUIChange()
+            updateNotification(position)
+        }
+    }
+    private fun playMusic(){
+        if (!player.isPlaying){
+            play(position)
+        }
+    }
 
-    fun startPlay(list : List<Music>, position : Int){
+    fun startPlay(list : List<Music>, pos : Int){
 
         musicList = list
 
@@ -178,32 +223,32 @@ class MusicPlayService : Service() {
         try {
             if (player.isPlaying) {
                 player.stop()
-                list[this.position].state = false
+                list[position].state = false
                 notifyActivityUIChange()
                 updateNotification(position)
-                if (this.position != position){
-                    this.position = position
-
-                    val music =  list[this.position]
-                    player.reset()
-                    player.setDataSource(music.musicUrl)
-                    player.prepare()
-                    player.start()
-                    list[this.position].state = true
-                    notifyActivityUIChange()
-                    updateNotification(position)
+                if (position != pos){
+                    position = pos
+                    play(position)
+//                    val music =  list[position]
+//                    player.reset()
+//                    player.setDataSource(music.musicUrl)
+//                    player.prepare()
+//                    player.start()
+//                    list[position].state = true
+//                    notifyActivityUIChange()
+//                    updateNotification(pos)
                 }
             }else{
-                this.position = position
-
-                val music =  list[this.position]
-                player.reset()
-                player.setDataSource(music.musicUrl)
-                player.prepare()
-                player.start()
-                list[this.position].state = true
-                notifyActivityUIChange()
-                updateNotification(position)
+                position = pos
+                play(position)
+//                val music =  list[position]
+//                player.reset()
+//                player.setDataSource(music.musicUrl)
+//                player.prepare()
+//                player.start()
+//                list[position].state = true
+//                notifyActivityUIChange()
+//                updateNotification(pos)
             }
         }catch (e:Exception){
             e.printStackTrace()
@@ -211,15 +256,16 @@ class MusicPlayService : Service() {
         }
     }
 
-//    private fun playMusic(position: Int){
-//        val music =  musicList[this.position]
-//        player.reset()
-//        player.setDataSource(music.musicUrl)
-//        player.prepare()
-//        player.start()
-//        music.state = true
-//        notifyActivityUIChange()
-//    }
+    private fun play(position: Int){
+        val music =  musicList[position]
+        player.reset()
+        player.setDataSource(music.musicUrl)
+        player.prepare()
+        player.start()
+        music.state = true
+        notifyActivityUIChange()
+        updateNotification(position)
+    }
 
 
     interface OnMusicStateChangeListener{
@@ -228,12 +274,12 @@ class MusicPlayService : Service() {
     }
 
     fun setOnMusicStateChangeListener(listener : OnMusicStateChangeListener){
-        this.onStateChangeListener = listener
+        onStateChangeListener = listener
     }
 
     private fun notifyActivityUIChange(){
-        if (this.onStateChangeListener != null){
-            this.onStateChangeListener!!.onStateChange(this.position)
+        if (onStateChangeListener != null){
+            onStateChangeListener!!.onStateChange(position)
         }
     }
 

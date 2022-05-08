@@ -6,37 +6,123 @@
     android:layout_height="match_parent"
     tools:context=".ui.music.MusicActivity"
     >
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/album_banner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/album_cover"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/txt_introduce"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/notfound" />
+
+        <TextView
+            android:id="@+id/txt1"
+            style="@style/text_music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/album_cover"
+            android:text="@string/album_name" />
+
+        <TextView
+            android:id="@+id/album_name"
+            style="@style/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt1"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/album_cover"
+            android:text="了不起的女孩" />
+
+        <TextView
+            android:id="@+id/txt2"
+            style="@style/text_music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/album_name"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/album_cover"
+            android:text="@string/album_group" />
+
+        <TextView
+            android:id="@+id/album_group"
+            style="@style/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt2"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/album_cover"
+            android:text="xxxxxx" />
+
+        <TextView
+            android:id="@+id/txt3"
+            style="@style/text_music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/album_group"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/album_cover"
+            android:text="@string/album_data" />
+        <TextView
+            android:id="@+id/txt_date"
+            style="@style/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/album_cover"
+            android:layout_below="@+id/txt3"
+            android:layout_marginStart="20dp" 
+            />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@drawable/cut_line"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@+id/album_banner"
+        />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/title"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintBottom_toTopOf="@+id/album_music"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/musics"
+        app:layout_constraintVertical_bias="0"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/album_music"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/album_banner"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

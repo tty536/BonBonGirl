@@ -15,10 +15,10 @@ import kotlin.concurrent.thread
 
 class AlbumViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+//    private val _text = MutableLiveData<String>().apply {
+//        value = "This is home Fragment"
+//    }
+//    val text: LiveData<String> = _text
 
     private val _listAlbum =   MutableLiveData<List<Album>>()
     var albumList :LiveData<List<Album>> = _listAlbum
@@ -36,11 +36,11 @@ class AlbumViewModel : ViewModel() {
                 try {
                     val dbAlbumList = ArrayList<Album>()
                     DBUtil.init("bonbon")
-                    val sql = "select  id,groupname,name,url,musics  from album"
+                    val sql = "select  id,groupname,name,url,musics ,publishdate from album"
                     val album = DBUtil.queryMap(sql)
                     for (i in album.indices){
                          val dbAlbum = Album( album[i]["id"].toString(),album[i]["groupname"].toString(),album[i]["name"].toString(),
-                             album[i]["url"].toString(),album[i]["musics"].toString())
+                             album[i]["url"].toString(),album[i]["musics"].toString(),album[i]["publishdate"].toString())
                         dbAlbumList.add(dbAlbum)
                     }
                     if(dbAlbumList.isNotEmpty()){

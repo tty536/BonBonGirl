@@ -2,6 +2,7 @@ package com.qiufang.bonbon.utils
 
 import com.qiufang.bonbon.R
 import com.qiufang.bonbon.ui.album.Album
+import com.qiufang.bonbon.ui.gallery.Gallery
 import com.qiufang.bonbon.ui.music.Music
 
 class Constants {
@@ -21,6 +22,15 @@ class Constants {
                 emptyAlbumList.add(Album("0","空专辑", "https://bonbon-music.oss-cn-hangzhou.aliyuncs.com/picture/%E4%B8%8D%E5%AD%98%E5%9C%A8%281%29.png"))
             }
             return emptyAlbumList
+        }
+
+        fun getEmptyGalleryList():List<Gallery>{
+            val emptyGalleryList = mutableListOf<Gallery>()
+            val i = 1
+            while (i<10){
+                emptyGalleryList.add(Gallery("空专辑", "https://bonbon-music.oss-cn-hangzhou.aliyuncs.com/picture/%E4%B8%8D%E5%AD%98%E5%9C%A8%281%29.png"))
+            }
+            return emptyGalleryList
         }
 
 
