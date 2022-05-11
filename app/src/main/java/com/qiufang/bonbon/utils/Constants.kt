@@ -28,7 +28,7 @@ class Constants {
             val emptyGalleryList = mutableListOf<Gallery>()
             val i = 1
             while (i<10){
-                emptyGalleryList.add(Gallery("空专辑", "https://bonbon-music.oss-cn-hangzhou.aliyuncs.com/picture/%E4%B8%8D%E5%AD%98%E5%9C%A8%281%29.png"))
+                emptyGalleryList.add(Gallery("1","空专辑", "https://bonbon-music.oss-cn-hangzhou.aliyuncs.com/picture/%E4%B8%8D%E5%AD%98%E5%9C%A8%281%29.png"))
             }
             return emptyGalleryList
         }

@@ -88,14 +88,12 @@ class MusicActivity : AppCompatActivity() {
 
         val intent = Intent(this@MusicActivity,MusicPlayService::class.java)
         bindService(intent, serviceConnection, BIND_AUTO_CREATE)
+
         musicViewModel.getMusics(albumId,albumGroup)
         musicViewModel.musicList.observe(this, Observer {
             if (it.isNotEmpty()){
-//                Constants.MusicList().setMusics(it)
-//                musicListData = it
 
                 MusicManager.Musics.setMusicData(it)
-
                 val adapter = MusicAdapter(it)
                 adapter.setListener(object :MusicAdapter.OnItemClickListener{
                     @SuppressLint("NotifyDataSetChanged")

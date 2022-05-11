@@ -99,31 +99,6 @@ class MusicPlayService : Service() {
         registerReceiver(receiver,intentFilter)
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun createRemoteView(){
-        mRemoteView = RemoteViews(packageName,R.layout.notify_music)
-
-        val intentAhead :PendingIntent = PendingIntent.getBroadcast(
-            this,1,Intent(BRE_ACTION_AHEAD),PendingIntent.FLAG_UPDATE_CURRENT)
-        mRemoteView.setOnClickPendingIntent(R.id.img_ahead,intentAhead)
-
-        val intentPlay :PendingIntent = PendingIntent.getBroadcast(
-            this,1,Intent(BRE_ACTION_PLAY),PendingIntent.FLAG_UPDATE_CURRENT)
-        mRemoteView.setOnClickPendingIntent(R.id.img_play,intentPlay)
-
-        val intentNext :PendingIntent = PendingIntent.getBroadcast(
-            this,1,Intent(BRE_ACTION_NEST),PendingIntent.FLAG_UPDATE_CURRENT)
-        mRemoteView.setOnClickPendingIntent(R.id.img_next,intentNext)
-
-        val intentPause :PendingIntent = PendingIntent.getBroadcast(
-            this,1,Intent(BRE_ACTION_PAUSE),PendingIntent.FLAG_UPDATE_CURRENT)
-        mRemoteView.setOnClickPendingIntent(R.id.img_pause,intentPause)
-
-        val intentClose :PendingIntent = PendingIntent.getBroadcast(
-            this,1,Intent(BRE_ACTION_CLOSE),PendingIntent.FLAG_UPDATE_CURRENT)
-        mRemoteView.setOnClickPendingIntent(R.id.img_close,intentClose)
-    }
-
     private fun initNotification(){
         manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -157,6 +132,30 @@ class MusicPlayService : Service() {
         mRemoteView.setTextViewText(R.id.group_name,musicList[position].group)
 
         manager.notify(MANAGE_ID,notification)
+    }
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun createRemoteView(){
+        mRemoteView = RemoteViews(packageName,R.layout.notify_music)
+
+        val intentAhead :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_AHEAD),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_ahead,intentAhead)
+
+        val intentPlay :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_PLAY),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_play,intentPlay)
+
+        val intentNext :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_NEST),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_next,intentNext)
+
+        val intentPause :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_PAUSE),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_pause,intentPause)
+
+        val intentClose :PendingIntent = PendingIntent.getBroadcast(
+            this,1,Intent(BRE_ACTION_CLOSE),PendingIntent.FLAG_UPDATE_CURRENT)
+        mRemoteView.setOnClickPendingIntent(R.id.img_close,intentClose)
     }
 
     private fun notifyControlUI(action: String){
@@ -229,26 +228,10 @@ class MusicPlayService : Service() {
                 if (position != pos){
                     position = pos
                     play(position)
-//                    val music =  list[position]
-//                    player.reset()
-//                    player.setDataSource(music.musicUrl)
-//                    player.prepare()
-//                    player.start()
-//                    list[position].state = true
-//                    notifyActivityUIChange()
-//                    updateNotification(pos)
                 }
             }else{
                 position = pos
                 play(position)
-//                val music =  list[position]
-//                player.reset()
-//                player.setDataSource(music.musicUrl)
-//                player.prepare()
-//                player.start()
-//                list[position].state = true
-//                notifyActivityUIChange()
-//                updateNotification(pos)
             }
         }catch (e:Exception){
             e.printStackTrace()

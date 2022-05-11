@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bonbon">
         <activity
-            android:name=".ui.gallery.PhotoActivity"
+            android:name=".ui.photo.PhotoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.player.PlayerActivity"

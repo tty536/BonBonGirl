@@ -8,7 +8,6 @@ import kotlin.collections.HashMap
 class DBUtil {
   companion object {
     private const val Tag = "DBLink"
-
     private const val driver = "com.mysql.jdbc.Driver"
     private const val user = "root"
     private const val password = "qiufang@123"
@@ -117,13 +116,13 @@ class DBUtil {
           for (i in values.indices) {
             pstmt.setObject(i + 1, values[i]) //setObject从1开始计数
           }
-          val rs = pstmt.executeQuery() //返回resultSet类型
+          val rs = pstmt.executeQuery() //返回resultSet
           val rsmt = pstmt.metaData //获得结果集元数据
           val colnum = rsmt.columnCount //获得列数
           while (rs.next()) {
             val row = mutableMapOf<String,String>()
             for (i in 1..colnum) {
-              row[rsmt.getColumnLabel(i)] = rs.getObject(i).toString()  //存放 名称+数据入当前行数
+              row[rsmt.getColumnLabel(i)] = rs.getObject(i).toString()  //存放 名称+数据到ret
             }
             ret.add(row) //将一行数据存放入总表
           }
