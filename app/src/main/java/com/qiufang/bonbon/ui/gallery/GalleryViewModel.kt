@@ -6,7 +6,6 @@ import android.os.Message
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.qiufang.bonbon.ui.album.Album
 import com.qiufang.bonbon.utils.Constants
 import com.qiufang.bonbon.utils.DBUtil
 import com.qiufang.bonbon.utils.LogUtil
@@ -34,17 +33,17 @@ class GalleryViewModel : ViewModel() {
         try {
             thread {
                 try {
-                    val dbAlbumList = ArrayList<Gallery>()
+                    val dbGalleryList = ArrayList<Gallery>()
                     DBUtil.init("bonbon")
                     val sql = "select  id,name,url from gallery"
                     val gallery = DBUtil.queryMap(sql)
                     for (i in gallery.indices){
                         val item = Gallery( gallery[i]["id"].toString(),gallery[i]["name"].toString(),gallery[i]["url"].toString())
-                        dbAlbumList.add(item)
+                        dbGalleryList.add(item)
                     }
-                    if(dbAlbumList.isNotEmpty()){
+                    if(dbGalleryList.isNotEmpty()){
                         mHandler.post {
-                            _listGallery.value =  dbAlbumList
+                            _listGallery.value =  dbGalleryList
                         }
                     }else{
                         mHandler.post {

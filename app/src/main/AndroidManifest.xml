@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bonbon">
         <activity
+            android:name=".ui.video.VideoPlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.photo.PhotoActivity"
             android:exported="false" />
         <activity

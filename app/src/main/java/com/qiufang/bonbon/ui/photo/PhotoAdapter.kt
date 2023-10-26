@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.google.android.material.card.MaterialCardView
 import com.qiufang.bonbon.R
 import com.qiufang.bonbon.utils.LogUtil
@@ -45,6 +46,7 @@ class PhotoAdapter: RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
         val photo : Photo =  photoList[position]
         holder.photoImage.load(photo.url){
             placeholder(R.drawable.notfound)
+            transformations(RoundedCornersTransformation(10f))
         }
         holder.photoImage.setOnClickListener {
             mItemClickListener?.onItemClick(photo)

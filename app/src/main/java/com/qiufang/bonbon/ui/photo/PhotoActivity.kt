@@ -18,7 +18,9 @@ import com.qiufang.bonbon.ui.music.MusicAdapter
 import com.qiufang.bonbon.utils.LogUtil
 
 class PhotoActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityPhotoBinding
+    private  var _binding : ActivityPhotoBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var photoVieModel : PhotoViewModel
     private lateinit var galleryId : String
     private lateinit var galleryName : String
@@ -33,7 +35,7 @@ class PhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityPhotoBinding.inflate(layoutInflater)
+        _binding = ActivityPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         LogUtil.d(TAG,"onCreate")
         photoVieModel = ViewModelProvider(this).get(PhotoViewModel::class.java)
@@ -64,6 +66,7 @@ class PhotoActivity : AppCompatActivity() {
                     frameList.visibility = View.GONE
                     frameBig.visibility = View.VISIBLE
                     imgBig.load(photo.url)
+                    this@PhotoActivity.title = photo.name
                 }
 
             })
@@ -72,7 +75,13 @@ class PhotoActivity : AppCompatActivity() {
         frameBig.setOnClickListener{
             frameList.visibility = View.VISIBLE
             frameBig.visibility = View.GONE
+            this.title = galleryName
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

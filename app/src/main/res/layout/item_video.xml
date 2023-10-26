@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_videoList"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/txt_video_title"
+            android:layout_width="120dp"
+            android:layout_height="23dp"
+            style="@style/text_music_title"
+            android:text="@string/musics"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_video_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

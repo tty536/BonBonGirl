@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.qiufang.bonbon.R
 import com.qiufang.bonbon.databinding.ActivityLaunchBinding
+import com.qiufang.bonbon.ui.login.LoginActivity
 import com.qiufang.bonbon.utils.Constants
 import com.qiufang.bonbon.utils.PermissionUtil
 import com.qiufang.bonbon.utils.StorageUtil
@@ -22,7 +23,7 @@ class LaunchActivity : AppCompatActivity() {
             if (msg.what == 0){
                 countdown--
                 if(countdown == 0){
-                    val intent = Intent(this@LaunchActivity,MainActivity::class.java)
+                    val intent = Intent(this@LaunchActivity,LoginActivity::class.java)
                     startActivity(intent)
                     this@LaunchActivity.finish()
                 }else{

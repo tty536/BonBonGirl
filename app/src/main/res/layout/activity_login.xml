@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_horizontal_margin"
-    tools:context=".activity.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/log_error"
         android:layout_width="200dp"
